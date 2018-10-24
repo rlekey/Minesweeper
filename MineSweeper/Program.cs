@@ -12,17 +12,24 @@ namespace MineSweeper
     {
         private static void Main(string[] args)
         {
-            
-            int size = GetSize();
-            int bombCount = GetBombCount();
+            while (true)
+            { 
 
-            Board playBoard = new Board(size, bombCount);
+                int size = GetSize();
+                int bombCount = GetBombCount();
 
-            // TODO fix the game loop to make the boards refresh
-            while (true) { 
+                Board playBoard = new Board(size, bombCount);
+
+                while (!playBoard.GameOver())
+                {
+                    playBoard.Render();
+
+                    playBoard.HandleInput(Console.ReadLine());
+                }
+
                 playBoard.Render();
 
-                playBoard.HandleInput(Console.ReadLine());
+                Console.WriteLine("You Lose! Try again!");
             }
         }
 
@@ -48,7 +55,7 @@ namespace MineSweeper
         private readonly int _bombCount;
         private int[,] _boardMap;
         private bool[,] _selectedMap;
-
+        private bool _gameOver;
 
         // Construct the board
         public Board(int size, int bombCount)
@@ -172,10 +179,10 @@ namespace MineSweeper
                 for (int j = 0; j < _size; j++)
                 {
                     // Print 1 space if it's a bomb, one if not.
-                    if (_selectedMap[i, j] == true)
+                    if (_selectedMap[j, i] == true)
                     {
-                        Console.Write((_boardMap[i, j] == -1) ? "  " : "   ");
-                        Console.Write(_boardMap[i, j]);
+                        Console.Write((_boardMap[j, i] == -1) ? "  " : "   ");
+                        Console.Write(_boardMap[j, i]);
                     }
                     else
                     {
@@ -252,6 +259,13 @@ namespace MineSweeper
                     _selectedMap[m, n] = true;
                 }
             }
+
+            _gameOver = true;
+        }
+
+        public bool GameOver()
+        {
+            return _gameOver;
         }
 
         #endregion
@@ -276,6 +290,8 @@ namespace MineSweeper
         }
 
         #endregion
+
+        
     }
 
 }
