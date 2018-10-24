@@ -216,7 +216,7 @@ namespace MineSweeper
         private bool[,] _visitedNodes;
         /// <summary>
         /// Recursive function to reveal adjacent squares if they are all 0.
-        /// We also need an additional visited array to deal with BFS
+        /// We also need an additional visited array for graph traversal
         /// </summary>
         /// <param name="xIndex"></param>
         /// <param name="yIndex"></param>
